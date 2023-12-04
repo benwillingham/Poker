@@ -1,0 +1,44 @@
+package chat.example;
+
+public class Chatbox {
+    private boolean chatEnabled;
+    private boolean chatBlocked;
+
+    public Chatbox() {
+        chatEnabled = true;
+        chatBlocked = false;
+    }
+
+    public void enableChat() {
+        chatEnabled = true;
+    }
+
+    public void disableChat() {
+        chatEnabled = false;
+    }
+
+    public void blockChat() {
+        chatBlocked = true;
+    }
+
+    public void unblockChat() {
+        chatBlocked = false;
+    }
+
+    public void sendText(String message) {
+        if (chatEnabled && !chatBlocked) {
+            // Code to handle sending the text message to the system or other players
+            System.out.println("Player sent a message: " + message);
+        } else {
+            System.out.println("Chat is disabled or blocked. Message not sent.");
+        }
+    }
+
+    public boolean isChatEnabled() {
+        return chatEnabled;
+    }
+
+    public boolean isChatBlocked() {
+        return chatBlocked;
+    }
+}

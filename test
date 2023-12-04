@@ -1,0 +1,74 @@
+package chat.example;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ChatboxTest {
+
+    Chatbox chatboxEnabled = new Chatbox();
+    Chatbox chatboxBlocked = new Chatbox();
+
+    @BeforeEach
+    void setUp() {
+        // Set up the chatboxBlocked with chat blocked
+        chatboxBlocked.blockChat();
+    }
+
+    @Test
+    void enableChat() {
+        chatboxEnabled.enableChat();
+        assertTrue(chatboxEnabled.isChatEnabled());
+    }
+
+    @Test
+    void disableChat() {
+        chatboxEnabled.disableChat();
+        assertFalse(chatboxEnabled.isChatEnabled());
+    }
+
+    @Test
+    void blockChat() {
+        assertTrue(chatboxBlocked.isChatBlocked());
+    }
+
+    @Test
+    void unblockChat() {
+        chatboxBlocked.unblockChat();
+        assertFalse(chatboxBlocked.isChatBlocked());
+    }
+
+    @Test
+    void sendText() {
+        chatboxEnabled.enableChat();
+
+        // Test sending text when chat is enabled and not blocked
+        chatboxEnabled.sendText("Hello, world!");
+        // You might need to capture the output and assert it here
+
+        // Test sending text when chat is enabled but blocked
+        chatboxBlocked.enableChat();
+        chatboxBlocked.blockChat();
+        chatboxBlocked.sendText("Blocked message");
+        // You might need to capture the output and assert it here
+
+        // Test sending text when chat is disabled
+        chatboxEnabled.disableChat();
+        chatboxEnabled.sendText("Message when chat is disabled");
+        // You might need to capture the output and assert it here
+    }
+
+    @Test
+    void isChatEnabled() {
+        assertTrue(chatboxEnabled.isChatEnabled());
+        assertFalse(chatboxBlocked.isChatEnabled());
+    }
+
+    @Test
+    void isChatBlocked() {
+        assertTrue(chatboxBlocked.isChatBlocked());
+        assertFalse(chatboxEnabled.isChatBlocked());
+    }
+}
