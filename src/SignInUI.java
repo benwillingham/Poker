@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignInUI {
     private JTextField textField1;
@@ -8,10 +13,13 @@ public class SignInUI {
     private JButton signInButton;
     private JPanel panel1;
 
-    private static final String CORRECT_USERNAME = "your_username";
-    private static final String CORRECT_PASSWORD = "your_password";
+    // Update the path to the Accounts.txt file
+    private static final String ACCOUNTS_FILE = "C:/Users/jranj/Documents/Accounts.txt";
+    private Map<String, String> accountMap;
 
     public SignInUI() {
+        initializeAccountMap();
+
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -32,8 +40,24 @@ public class SignInUI {
         });
     }
 
+    private void initializeAccountMap() {
+        accountMap = new HashMap<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ACCOUNTS_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\s+");
+                if (parts.length == 2) {
+                    accountMap.put(parts[0], parts[1]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean isValidLogin(String enteredUsername, String enteredPassword) {
-        return enteredUsername.equals(CORRECT_USERNAME) && enteredPassword.equals(CORRECT_PASSWORD);
+        return accountMap.containsKey(enteredUsername) && accountMap.get(enteredUsername).equals(enteredPassword);
     }
 
     public static void main(String[] args) {
